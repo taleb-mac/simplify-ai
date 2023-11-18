@@ -9,9 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^3.1.14",
+    "filepond": "^4.30.4",
+    "formidable": "^3.5.1",
+    "fs": "^0.0.1-security",
+    "next": "14.0.2",
+    "pdf-parse": "^1.1.1",
+    "pdf2json": "^3.0.5",
+    "pdfjs-dist": "^4.0.189",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.0.2"
+    "react-pdf": "^7.5.1",
+    "tesseract.js": "^5.0.3"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",

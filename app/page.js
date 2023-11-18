@@ -1,6 +1,6 @@
 // pages/index.js
 import Header from './components/Header';
-import FileUpload from './components/FileUpload.client'; // Updated import
+import FileUpload from './components/FileUpload'; // Updated import
 import FlashcardPreview from './components/FlashcardPreview';
 import Footer from './components/Footer';
 
