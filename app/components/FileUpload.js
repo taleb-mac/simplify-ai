@@ -9,11 +9,16 @@ const FileUpload = () => {
     const file = e.target.files[0];
     let formData = new FormData();
     formData.set("file", file);
-
+    console.log(file)
+    console.log(formData)
+    
     const text = await fetch("/api/FileToText", {
       method: "POST",
       body: formData
     }).then((res) => res.json());
+
+    setFileText(text.text);
+    
   };
 
   return (

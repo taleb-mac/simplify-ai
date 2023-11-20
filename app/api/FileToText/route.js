@@ -3,12 +3,14 @@ import { NextResponse } from "next/server";
 import PDFParser from "pdf2json";
 import fs from "fs-extra";
 
+
 export async function POST(req) {
   try {
+
     // Parse the FormData from the request
     const formData = await req.formData();
     const file = formData.get("file"); // Get the file from FormData
-
+    
     if (!file) throw new Error("No file provided.");
 
     switch (file.type) {
@@ -18,17 +20,7 @@ export async function POST(req) {
           status: 200,
           headers: { "Content-Type": "application/json" }
         });
-
-        return new NextResponse(
-          JSON.stringify({ error: "PDF file type not supported yet" }),
-          {
-            status: 400,
-            headers: { "Content-Type": "application/json" }
-          }
-        );
-
-      case "image/png":
-      case "image/jpeg":
+      case "image/png" || "image/jpeg":
         const text = await extractTextFromImage(file);
         if (text) {
           return new NextResponse(JSON.stringify({ text: text }), {
@@ -67,6 +59,7 @@ export async function POST(req) {
 const extractTextFromImage = async (imageFile) => {
   console.log("Extracting text from image...");
 
+  const formData = new FormData();
   formData.append("file", imageFile); // Replace 'image.jpg' with the actual file name if available
   formData.append("language", "eng");
   formData.append("apikey", process.env.OCRSPACE_API);
@@ -118,3 +111,12 @@ const extractTextFromPDF = async (pdfFile) => {
     pdfParser.loadPDF(tempFilePath);
   });
 };
+
+const textToCards =  async (text) => {
+  const conf = new Configuration({
+    apiKey: process.env.GPT_API,
+  });
+  const openai = new OpenAIApi(conf);
+  const prompt = "you are being used in a website that creates flash cards from pdfs to help students study, creat flash cards from the following text, seperate each flash card with a comma, only include the flash cards in your response\n"
+  
+}
