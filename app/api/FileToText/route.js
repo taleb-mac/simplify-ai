@@ -2,7 +2,13 @@
 import { NextResponse } from "next/server";
 import PDFParser from "pdf2json";
 import fs from "fs-extra";
+import OpenAI from "openai";
 
+
+const conf = new OpenAI({
+  apiKey: process.env.GPT_API,
+  
+});
 
 export async function POST(req) {
   try {
@@ -16,6 +22,9 @@ export async function POST(req) {
     switch (file.type) {
       case "application/pdf":
         const pdftext = await extractTextFromPDF(file);
+        if (pdftext) {
+          textToCards(pdftext);
+        }
         return new NextResponse(JSON.stringify({ text: pdftext }), {
           status: 200,
           headers: { "Content-Type": "application/json" }
@@ -113,10 +122,26 @@ const extractTextFromPDF = async (pdfFile) => {
 };
 
 const textToCards =  async (text) => {
-  const conf = new Configuration({
-    apiKey: process.env.GPT_API,
-  });
-  const openai = new OpenAIApi(conf);
-  const prompt = "you are being used in a website that creates flash cards from pdfs to help students study, creat flash cards from the following text, seperate each flash card with a comma, only include the flash cards in your response\n"
-  
+  const openai = new OpenAI(conf);
+  try {
+    console.log("Calling the Assistant..");
+
+    const thread = await openai.beta.threads.create({
+      messages: [
+        {
+          role: "user",
+          content: text,
+        },
+      ],
+    });
+
+    const run = await openai.beta.threads.runs.create(thread.id, {
+      assistant_id: 'asst_fAmqiwjOHTnGMDRvfu2yq84X',
+    });
+    
+    console.log(run);
+  } catch (error) {
+    console.error('Error calling the Assistant with function:', error);
+  }
 }
+  
