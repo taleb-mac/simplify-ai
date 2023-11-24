@@ -5,19 +5,24 @@ const FileUpload = () => {
   const [fileText, setFileText] = useState(null);
 
   const handleFileUpload = async (e) => {
-    console.log("File upload started...");
+    if (!e.target.files[0]) return;
     const file = e.target.files[0];
     let formData = new FormData();
     formData.set("file", file);
-    console.log(file)
-    console.log(formData)
-    
+
+    console.log("Uploading file...")
     const text = await fetch("/api/FileToText", {
       method: "POST",
       body: formData
     }).then((res) => res.json());
+    console.log("File uploaded successfully!")
+    const cards = await fetch("/api/TextToCards", {
+      method: "POST",
+      body: JSON.stringify({ text: text.text })
+    }).then((res) => res.json());
+    console.log("Cards generated successfully!")
 
-    setFileText(text.text);
+    setFileText(cards.data);
     
   };
 

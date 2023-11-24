@@ -2,13 +2,6 @@
 import { NextResponse } from "next/server";
 import PDFParser from "pdf2json";
 import fs from "fs-extra";
-import OpenAI from "openai";
-
-
-const conf = new OpenAI({
-  apiKey: process.env.GPT_API,
-  
-});
 
 export async function POST(req) {
   try {
@@ -22,9 +15,6 @@ export async function POST(req) {
     switch (file.type) {
       case "application/pdf":
         const pdftext = await extractTextFromPDF(file);
-        if (pdftext) {
-          textToCards(pdftext);
-        }
         return new NextResponse(JSON.stringify({ text: pdftext }), {
           status: 200,
           headers: { "Content-Type": "application/json" }
@@ -66,7 +56,6 @@ export async function POST(req) {
 }
 
 const extractTextFromImage = async (imageFile) => {
-  console.log("Extracting text from image...");
 
   const formData = new FormData();
   formData.append("file", imageFile); // Replace 'image.jpg' with the actual file name if available
@@ -83,9 +72,7 @@ const extractTextFromImage = async (imageFile) => {
     if (result.OCRExitCode !== 1) {
       throw new Error(`OCR Error: ${result.ErrorMessage}`);
     }
-    console.log(result);
     const text = result.ParsedResults[0].ParsedText;
-    console.log(text);
     return text;
   } catch (error) {
     console.error("Error during OCR.space API call:", error);
@@ -94,7 +81,6 @@ const extractTextFromImage = async (imageFile) => {
 };
 
 const extractTextFromPDF = async (pdfFile) => {
-  console.log("Extracting text from PDF...");
   const buffer = Buffer.from(await pdfFile.arrayBuffer());
   const tempFilePath = "tempPdfFile.pdf";
 
@@ -111,7 +97,6 @@ const extractTextFromPDF = async (pdfFile) => {
 
     pdfParser.on("pdfParser_dataReady", async (pdfData) => {
       const text = pdfParser.getRawTextContent();
-      console.log(text);
       await fs.remove(tempFilePath);
       resolve(text);
     });
@@ -120,28 +105,3 @@ const extractTextFromPDF = async (pdfFile) => {
     pdfParser.loadPDF(tempFilePath);
   });
 };
-
-const textToCards =  async (text) => {
-  const openai = new OpenAI(conf);
-  try {
-    console.log("Calling the Assistant..");
-
-    const thread = await openai.beta.threads.create({
-      messages: [
-        {
-          role: "user",
-          content: text,
-        },
-      ],
-    });
-
-    const run = await openai.beta.threads.runs.create(thread.id, {
-      assistant_id: 'asst_fAmqiwjOHTnGMDRvfu2yq84X',
-    });
-    
-    console.log(run);
-  } catch (error) {
-    console.error('Error calling the Assistant with function:', error);
-  }
-}
-  

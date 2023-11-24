@@ -9,5 +9,9 @@
         "tesseract",
         "Tesseract",
         "uuidv"
+    ],
+    "cSpell.ignoreWords": [
+        "openai",
+        "pdfs"
     ]
 }
