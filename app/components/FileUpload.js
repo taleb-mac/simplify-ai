@@ -1,12 +1,17 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useDropzone } from 'react-dropzone';
 
-const FileUpload = () => {
-  const [fileText, setFileText] = useState(null);
+const FileUpload = (props) => {
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop: (acceptedFiles) => {
+      handleFileUpload(acceptedFiles[0])
+    },
+  });
 
   const handleFileUpload = async (e) => {
-    if (!e.target.files[0]) return;
-    const file = e.target.files[0];
+    if (!e) return;
+    const file = e;
     let formData = new FormData();
     formData.set("file", file);
 
@@ -15,20 +20,13 @@ const FileUpload = () => {
       method: "POST",
       body: formData
     }).then((res) => res.json());
+    props.setText(text);
     console.log("File uploaded successfully!")
-    const cards = await fetch("/api/TextToCards", {
-      method: "POST",
-      body: JSON.stringify({ text: text.text })
-    }).then((res) => res.json());
-    console.log("Cards generated successfully!")
-
-    setFileText(cards.data);
-    
   };
 
   return (
     <div className="flex items-center justify-center my-12">
-      <div className="w-full max-w-lg p-4 border-2 border-dashed rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">
+      <div {...getRootProps()} className="w-full max-w-lg p-4 border-2 border-dashed rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">
         <label
           htmlFor="dropzone-file"
           className="flex flex-col items-center justify-center h-64 cursor-pointer"
@@ -58,19 +56,13 @@ const FileUpload = () => {
             </p>
           </div>
           <input
+            {...getInputProps()} 
             id="dropzone-file"
             type="file"
             className="hidden"
-            onChange={(e) => handleFileUpload(e)}
+            onChange={(e) => handleFileUpload(e.target.files[0])}
           />
         </label>
-      </div>
-      <div>
-        {fileText && (
-          <div className="p-4 border rounded shadow-md mb-4">
-            <p>{fileText}</p>
-          </div>
-        )}
       </div>
     </div>
   );

@@ -31,7 +31,10 @@ const textToCards = async (text) => {
             messages: [
                 {
                     "role": "system",
-                    "content": "you are being used in a website that creates flash cards from pdfs to help students study, create flash cards summarizing important information from the following text into short sentences used for studying, separate each flash card with a comma, ignore any extra information (like chapter or page) in the text, only include the flash cards in your response, start each flash card with the text immediately, end each flash card with a period"
+                    "content": `you are being used in a website that creates flash cards from pdfs to help students study,
+                    create flash cards summarizing important information from the following text into short sentences used for studying,
+                    separate each flash card with a new line only, do not include any other punctuation, include the text immediately,
+                    only include the flash cards in your response.`
                 },
                 { "role": "user", "content": text }],
             model: "gpt-3.5-turbo",

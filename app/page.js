@@ -1,6 +1,5 @@
 import Header from './components/Header';
-import FileUpload from './components/FileUpload';
-import FlashcardPreview from './components/FlashcardPreview';
+import Body from './components/Body';
 import Footer from './components/Footer';
 
 export default function Home() {
@@ -8,11 +7,8 @@ export default function Home() {
     <>
       <div className="flex flex-col min-h-screen">
         <Header />
-        <main className="mb-auto">
-          <FileUpload/>
-          <FlashcardPreview />
-        </main>
-      <Footer />
+        <Body />
+        <Footer />
       </div>
     </>
   );
