@@ -11,7 +11,7 @@ const Loading = () => {
   }, []);
 
   return (
-    <header className="text-white p-4 text-center">
+    <header className="text-white p-4 py-8 text-center">
       <div className="container mx-auto">
         <h1 className="text-4xl font-bold mb-4 animate-float">
           {Array.from('Loading...').map((char, index) => (
