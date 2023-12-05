@@ -19,26 +19,26 @@ const FlashcardPreview = (props) => {
   const currentCard = props.cards[currentCardIndex];
 
   return (
-    <div className="my-6 flex items-center justify-center">
+    <div className="my-6 py-6 flex items-center justify-center">
       {currentCard && (
         <div className="p-8 border rounded shadow-md transition-transform max-w-md w-full">
           <p
             className="text-white text-center transition-opacity"
             style={{ minHeight: '80px' }}
-          >
+            >
             {currentCard.summary}
           </p>
           <div className="flex justify-between mt-4">
             <button
               onClick={prevCard}
               className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue transition-transform"
-            >
+              >
               Previous
             </button>
             <button
               onClick={nextCard}
               className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue transition-transform"
-            >
+              >
               Next
             </button>
           </div>

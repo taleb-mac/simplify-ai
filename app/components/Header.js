@@ -1,7 +1,7 @@
 const Header = () => (
-  <header className="bg-blue-500 text-white p-4 text-center">
+  <header className="text-white py-6 text-center relative">
     <div className="container mx-auto">
-      <h1 className="text-xl">Simplify</h1>
+      <h1 className="text-2xl font-noto">بسطلي</h1>
     </div>
   </header>
 );
