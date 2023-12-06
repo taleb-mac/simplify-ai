@@ -55,13 +55,7 @@ const FileUpload = (props) => {
               PDF, PPTX, or Image files
             </p>
           </div>
-          <input
-            {...getInputProps()} 
-            id="dropzone-file"
-            type="file"
-            className="hidden"
-            onChange={(e) => handleFileUpload(e.target.files[0])}
-          />
+
         </label>
       </div>
     </div>
