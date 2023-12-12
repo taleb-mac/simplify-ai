@@ -42,7 +42,8 @@ const Body = () => {
             <FileUpload setText={setFileText} />
             <ArabicCheckbox checkboxRef={checkboxRef}/>
             {isLoading ? <Loading /> : null}
-            <FlashcardPreview cards={cards}/>
+            <FlashcardPreview cards={cards.filter(card => card !== '' || card !== '\n')} />
+
         </main>
     );
 
