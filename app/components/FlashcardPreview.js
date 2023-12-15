@@ -25,20 +25,24 @@ const FlashcardPreview = (props) => {
           <p
             className="text-white text-center transition-opacity"
             style={{ minHeight: '80px' }}
-            >
+          >
             {currentCard.summary}
           </p>
+
           <div className="flex justify-between mt-4">
             <button
               onClick={prevCard}
               className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue transition-transform"
-              >
+            >
               Previous
             </button>
+            <div className="absolute left-0 right-0 text-center text-white mt-1" style={{ zIndex: -2 }}>
+              {currentCardIndex + 1}/{props.cards.length}
+            </div>
             <button
               onClick={nextCard}
               className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue transition-transform"
-              >
+            >
               Next
             </button>
           </div>
