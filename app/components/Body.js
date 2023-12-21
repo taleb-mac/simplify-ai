@@ -1,5 +1,6 @@
 'use client';
 import FileUpload from './FileUpload';
+import LinkUpload from './LinkUpload';
 import FlashcardPreview from './FlashcardPreview';
 import QuizDisplay from './QuizDisplay';
 import Loading from './Loading';
@@ -65,6 +66,7 @@ const Body = () => {
     return (
         <main className="mb-auto">
             <FileUpload setText={setFileText} />
+            <LinkUpload setText={setFileText} />
             <Options checkboxRef={checkboxRef} optionsRef={optionsRef}/>
             {isLoading ? <Loading /> : null}
             <FlashcardPreview cards={cards}/>
