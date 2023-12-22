@@ -52,7 +52,7 @@ const FileUpload = (props) => {
               drop
             </p>
             <p className="text-xs text-gray-600 dark:text-gray-300">
-              PDF, PPTX, or Image files
+              PDF, or Image files
             </p>
           </div>
 

@@ -33,19 +33,30 @@ const getText = async (link) => {
 
 // Function to fetch transcript using YouTube API
 const fetchTranscriptFromYouTubeAPI = async (link) => {
-    // Make requests to YouTube API using your API key and fetch transcript
-    // Replace 'YOUR_API_KEY' with your actual YouTube API key
-    const apiKey = process.env.YOUTUBE_API;
-    const apiUrl = `https://www.googleapis.com/youtube/v3/captions?${getVideoId(link)}&part=snippet&key=${apiKey}:`;${getVideoId(link)}&key=${apiKey}
+    const videoId = getVideoId(link);
+    const url = `https://subtitles-for-youtube.p.rapidapi.com/subtitles/${videoId}`;
 
-    const response = await fetch(apiUrl);
-    const data = await response.json();
+    const options = {
+    method: 'GET',
+    headers: {
+        'X-RapidAPI-Key': process.env.RAPID_API,
+        'X-RapidAPI-Host': 'subtitles-for-youtube.p.rapidapi.com'
+    }
+    };
+
+    try {
+    const response = await fetch(url, options);
+    const subtitles = await JSON.parse( await response.text());
+
     
-    console.log(data);
-    // Extract transcript from the API response, modify this based on the actual API response structure
-    const transcript = data.items[0]?.snippet?.title || 'Transcript not available';
+    // Extract the "text" property from each object and concatenate them
+    const concatenatedText = await subtitles.map(subtitle => subtitle.text).join(' ');
+    console.log(concatenatedText);
+    return concatenatedText;
 
-    return transcript;
+    } catch (error) {
+    console.error(error);
+    }
 }
 
 // Helper function to extract video ID from YouTube URL
@@ -53,3 +64,5 @@ const getVideoId = (url) => {
     const match = url.match(/[?&]v=([^&]+)/);
     return match ? match[1] : null;
 }
+
+

@@ -66,8 +66,8 @@ const Body = () => {
     return (
         <main className="mb-auto">
             <FileUpload setText={setFileText} />
-            <LinkUpload setText={setFileText} />
             <Options checkboxRef={checkboxRef} optionsRef={optionsRef}/>
+            <LinkUpload setText={setFileText}/>
             {isLoading ? <Loading /> : null}
             <FlashcardPreview cards={cards}/>
             <QuizDisplay quizData={quiz}/>
